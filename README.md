@@ -1,6 +1,6 @@
 # Journal App 
 
-This is an android journal application that can be used as a diary for writting down your thoughts, feelings and events 
+This is an android journal application that can be used as a journal for writting down your thoughts, feelings and events
 
 ## Getting Started
 
