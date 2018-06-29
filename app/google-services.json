@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "585240743110",
+    "firebase_url": "https://journal-app-1529882911671.firebaseio.com",
+    "project_id": "journal-app-1529882911671",
+    "storage_bucket": "journal-app-1529882911671.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585240743110:android:0f7276b8403f13bb",
+        "android_client_info": {
+          "package_name": "com.andela.gudacity.scholar.journalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "585240743110-d2ksdb2d40ltbi98kh2vc5amg37katui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLa5h9SOg4IyN3TU1Uqzf4lt6soQstCQI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

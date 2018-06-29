@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Journal App</string>
+    <string name="signin_error_msg">Sign In Fail!</string>
+    <string name="signup_error_msg">Signup fail</string>
 </resources>
