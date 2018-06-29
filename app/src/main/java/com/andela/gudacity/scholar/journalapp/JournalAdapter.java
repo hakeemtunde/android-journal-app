@@ -67,9 +67,9 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.ViewHold
         }
 
         void bind(Journal journal) {
-            mTextViewTag.setText(journal.getTag());
-            mTextViewShortNote.setText(journal.getNote());
-            mTextViewTimestamp.setText(journal.getTimestamp());
+            mTextViewTag.setText(journal.tag);
+            mTextViewShortNote.setText(journal.note);
+            mTextViewTimestamp.setText(journal.timestamp);
         }
 
         @Override
