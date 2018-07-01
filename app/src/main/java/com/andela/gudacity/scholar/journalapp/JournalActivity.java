@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.model.Journal;
+import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.repository.FirebaseRepo;
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.repository.JournalRepo;
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.util.AppExecutors;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,12 +37,11 @@ public class JournalActivity extends AppCompatActivity
     private RecyclerView mJournalRecycleView;
     private List<Journal> mJournalList = new ArrayList<>();
 
-    private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    private DatabaseReference mDbRef;
-    private FirebaseDatabase mFireDatabase;
 
     private JournalRepo mJournalRepo;
+
+    private FirebaseRepo mFirebaseRepo;
 
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -51,26 +51,20 @@ public class JournalActivity extends AppCompatActivity
         setContentView(R.layout.activity_journal_list);
 
 
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-
-        //sqlite connection
-        mJournalRepo = new JournalRepo(getApplicationContext());
-
-        //loadData();
-
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        mFireDatabase = FirebaseDatabase.getInstance();
-        mDbRef = mFireDatabase.getReference("users-journals"); //writing
-
-        //firebase
-//        retrieveJournalFromFirebase();
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
 
         mJournalRecycleView = (RecyclerView) findViewById(R.id.rv_journals);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mJournalRecycleView.setLayoutManager(layoutManager);
         mJournalRecycleView.setHasFixedSize(true);
+
+        //sqlite connection
+        mJournalRepo = new JournalRepo(getApplicationContext());
+
+        //firebase
+        mFirebaseRepo = new FirebaseRepo(mUser);
+        mFirebaseRepo.retrieveJournalFromFirebase();
 
         mJournalAdapter = new JournalAdapter(mJournalList, this);
         mJournalRecycleView.setAdapter(mJournalAdapter);
@@ -101,7 +95,7 @@ public class JournalActivity extends AppCompatActivity
         }
 
         if (menuItemId == R.id.action_logout) {
-            mAuth.signOut();
+            FirebaseAuth.getInstance().signOut();
             launchMainActivity();
             return true;
         }
@@ -155,61 +149,6 @@ public class JournalActivity extends AppCompatActivity
         });
     }
 
-    private void persistToFirebase() {
 
-        Journal nj = new Journal();
-        nj.setNote("Note1");
-        nj.setTag("at school i was able to see my friend");
-        nj.setDate(new Date());
-
-        String key = mDbRef.child(mUser.getUid()).push().getKey();
-        mDbRef.child(mUser.getUid()).child(key).setValue(nj);
-
-        nj.setNote("Note2");
-        nj.setTag("market was boring");
-        nj.setDate(new Date());
-        key = mDbRef.child(mUser.getUid()).push().getKey();
-        mDbRef.child(mUser.getUid()).child(key).setValue(nj);
-
-    }
-
-    private void retrieveJournalFromFirebase() {
-
-        mDbRef = FirebaseDatabase.getInstance().getReferenceFromUrl(
-                "https://journal-app-1529882911671.firebaseio.com/users-journals/"+mUser.getUid());
-
-//        mDbRef = mFireDatabase.getReference("users-journals/"+mUser.getUid());
-
-        Log.w(TAG,mUser.getUid());
-
-        final List<Journal> lists =  new ArrayList<>();
-
-        mDbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Journal journal = snapshot.getValue(Journal.class);
-
-                    //Journal j = new Journal(journal.tag, journal.note, journal.timestamp);
-                    //mJournalList.add(j);
-                    lists.add(journal);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-            }
-        });
-
-        Log.w(TAG, "----------------------------------------");
-
-        for (Journal journal : lists) {
-            Log.w(TAG, journal.getNote());
-        }
-    }
 
 }

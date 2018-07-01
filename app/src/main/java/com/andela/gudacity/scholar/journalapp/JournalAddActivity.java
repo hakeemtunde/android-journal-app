@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.model.Journal;
+import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.repository.FirebaseRepo;
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.repository.JournalRepo;
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.util.AppExecutors;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +30,8 @@ public class JournalAddActivity extends AppCompatActivity
     private Button mSaveOnlineButton;
     private JournalRepo mJournalRepo;
 
+    private FirebaseRepo mFirebaseRepo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,9 @@ public class JournalAddActivity extends AppCompatActivity
 
         //initialize dbconnection
         mJournalRepo = new JournalRepo(getApplicationContext());
+
+        //init firebase
+        mFirebaseRepo = new FirebaseRepo(FirebaseAuth.getInstance().getCurrentUser());
 
         //initialize controls
        mNoteEditText = (EditText) findViewById(R.id.et_note);
@@ -88,6 +94,7 @@ public class JournalAddActivity extends AppCompatActivity
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         final Journal journal = new Journal(tag, note, email, new Date());
+
         Log.d(JournalAddActivity.class.getSimpleName(), journal.toString());
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -106,6 +113,26 @@ public class JournalAddActivity extends AppCompatActivity
 
     private void saveToFirebase() {
 
+        String note = mNoteEditText.getText().toString();
+        String tag = mTagEditText.getText().toString();
+
+        final Journal journal = new Journal();
+        journal.setDate(new Date());
+        journal.setNote(note);
+        journal.setTag(tag);
+
+        Log.d(JournalAddActivity.class.getSimpleName(), journal.toString());
+
+        AppExecutors.getInstance().networkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mFirebaseRepo.persistToFirebase(journal);
+                finish();
+            }
+        });
+
+        Toast.makeText(this, "Journal saved to firebase. Look at the log!", Toast.LENGTH_LONG)
+                .show();
     }
 
 }
