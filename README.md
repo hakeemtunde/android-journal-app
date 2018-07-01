@@ -26,7 +26,7 @@ Download the .apk and run it on your device/emulator. Otherwise clone and compil
 
 ### Screenshots
 
-* Sign in ![image](screenshots/Main.png)
+* Sign in ![image](screenshots/Main.png) <!-- .element height="50%" width="50%" -->
 
 
 
