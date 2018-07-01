@@ -11,16 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".JournalActivity"></activity>
-        <activity android:name=".JournalAddActivity"></activity>
-        <activity android:name=".SignUpActivity" android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".JournalActivity" android:label="Journals">
+        </activity>
+        <activity android:name=".JournalAddActivity" />
+        <activity
+            android:name=".SignUpActivity" android:label="Sign Up"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".DetailActivity" android:label="Journal" />
+        <activity android:name=".UpdateActivity" android:label="Update Journal"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    tools:context=".DetailActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Note" />
+
+
+        <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="268dp">-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_detail_note"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="268dp"-->
+            <!--android:inputType="textMultiLine"-->
+            <!--android:text="testiiig testing g gg g "-->
+             <!--/>-->
+        <!--</ScrollView>-->
+
+    <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+
+
+        <TextView
+            android:id="@+id/tv_detail_note"
+            android:layout_width="match_parent"
+            android:layout_height="368dp"
+            android:gravity="top"
+            android:textSize="14sp"
+            android:justificationMode="inter_word"
+            android:fontFamily="monospace"
+            />
+
+
+
+    <!--</android.support.design.widget.TextInputLayout>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tv_tag_label"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Tag" />
+
+        <TextView
+            android:id="@+id/tv_detail_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="testingi"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/tv_tag_label"
+            android:layout_toRightOf="@+id/tv_tag_label"
+            android:singleLine="true"
+            />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_detail_edit"
+        android:text="Edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        />
+
+
+</LinearLayout>

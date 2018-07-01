@@ -9,12 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.model.Journal;
+import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.repository.JournalRepo;
+import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.util.AppExecutors;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,12 +34,14 @@ public class JournalActivity extends AppCompatActivity
 
     private JournalAdapter mJournalAdapter;
     private RecyclerView mJournalRecycleView;
-    private List<Journal> mJournalList;
+    private List<Journal> mJournalList = new ArrayList<>();
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private DatabaseReference mDbRef;
     private FirebaseDatabase mFireDatabase;
+
+    private JournalRepo mJournalRepo;
 
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -46,19 +50,21 @@ public class JournalActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journal_list);
 
-        mJournalList = new ArrayList();
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-        //setUpAuthListener();
+        //sqlite connection
+        mJournalRepo = new JournalRepo(getApplicationContext());
+
+        //loadData();
 
 //        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         mFireDatabase = FirebaseDatabase.getInstance();
         mDbRef = mFireDatabase.getReference("users-journals"); //writing
 
-        //persist();
-        retrieveJournal();
+        //firebase
+//        retrieveJournalFromFirebase();
 
         mJournalRecycleView = (RecyclerView) findViewById(R.id.rv_journals);
 
@@ -69,7 +75,6 @@ public class JournalActivity extends AppCompatActivity
         mJournalAdapter = new JournalAdapter(mJournalList, this);
         mJournalRecycleView.setAdapter(mJournalAdapter);
 
-        mJournalAdapter.notifyDataSetChanged();
 
     }
 
@@ -80,13 +85,9 @@ public class JournalActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-//        mAuthListener.onAuthStateChanged(mAuth);
-        if (mUser == null) {
-           launchMainActivity();
-           return;
-        }
+    protected void onResume() {
+        super.onResume();
+        loadData();
     }
 
     @Override
@@ -105,14 +106,17 @@ public class JournalActivity extends AppCompatActivity
             return true;
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onListItemClick(int journalPosition) {
+
         Journal journal = mJournalList.get(journalPosition);
-        Log.d(this.getClass().getSimpleName(), journal.toString());
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(DetailActivity.EXTRA_JOURNAL_ID, journal.getId());
+        startActivity(intent);
 
     }
 
@@ -128,26 +132,57 @@ public class JournalActivity extends AppCompatActivity
         finish();
     }
 
-    private void persist() {
+    private void loadData() {
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+
+                //execute off main thread
+                final List<Journal> journals = mJournalRepo
+                        .getUserList(mUser.getEmail());
+
+                //execute on main thread
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mJournalAdapter.setJournalList(journals);
+                    }
+                });
+
+
+            }
+        });
+    }
+
+    private void persistToFirebase() {
+
+        Journal nj = new Journal();
+        nj.setNote("Note1");
+        nj.setTag("at school i was able to see my friend");
+        nj.setDate(new Date());
 
         String key = mDbRef.child(mUser.getUid()).push().getKey();
-
-        Journal nj = new Journal(mUser.getEmail(),
-                "at school i was able to see my friend ", String.valueOf(new Date().getTime()));
         mDbRef.child(mUser.getUid()).child(key).setValue(nj);
 
-        nj = new Journal(mUser.getEmail(), "market was boring", "12-12-2019");
+        nj.setNote("Note2");
+        nj.setTag("market was boring");
+        nj.setDate(new Date());
         key = mDbRef.child(mUser.getUid()).push().getKey();
         mDbRef.child(mUser.getUid()).child(key).setValue(nj);
 
     }
 
-    private void retrieveJournal() {
+    private void retrieveJournalFromFirebase() {
 
+        mDbRef = FirebaseDatabase.getInstance().getReferenceFromUrl(
+                "https://journal-app-1529882911671.firebaseio.com/users-journals/"+mUser.getUid());
 
-        mDbRef = mFireDatabase.getReference("users-journals").child(mUser.getUid());
+//        mDbRef = mFireDatabase.getReference("users-journals/"+mUser.getUid());
 
         Log.w(TAG,mUser.getUid());
+
+        final List<Journal> lists =  new ArrayList<>();
 
         mDbRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -155,10 +190,11 @@ public class JournalActivity extends AppCompatActivity
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Journal journal = snapshot.getValue(Journal.class);
-                    mJournalList.add(journal);
 
-                    Log.w(TAG, journal.toString());
-                    mJournalList.add(new Journal("---", "-----", "---33"));
+                    //Journal j = new Journal(journal.tag, journal.note, journal.timestamp);
+                    //mJournalList.add(j);
+                    lists.add(journal);
+
                 }
             }
 
@@ -168,19 +204,12 @@ public class JournalActivity extends AppCompatActivity
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             }
         });
+
+        Log.w(TAG, "----------------------------------------");
+
+        for (Journal journal : lists) {
+            Log.w(TAG, journal.getNote());
+        }
     }
 
-    private void setUpAuthListener() {
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                if (firebaseAuth.getCurrentUser() == null) {
-                    launchMainActivity();
-                }
-
-            }
-        };
-    }
 }

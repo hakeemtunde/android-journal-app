@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    >
+    android:padding="5dp"
+    android:layout_marginTop="5dp"
+    android:background="@color/material50Green"
+    android:foreground="?attr/selectableItemBackground">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="5dp"
-        >
 
         <TextView
             android:id="@+id/tv_tag"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="42sp"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:text="Tage"
+            android:textColor="@color/material900Green"
+            android:gravity="center_horizontal"
             />
 
         <TextView
             android:id="@+id/tv_short_note"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp" />
+            android:textSize="16sp"
+            android:fontFamily="monospace"
+            android:padding="5dp"
+            android:text="my brief note..."
+            android:textColor="@color/material900Green"
+            />
 
         <TextView
             android:id="@+id/tv_timestamp"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="12-12-2018"
+            android:textSize="10sp"
+            />
 
-    </LinearLayout>
-
-
-</FrameLayout>
+</LinearLayout>
