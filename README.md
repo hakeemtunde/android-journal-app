@@ -26,17 +26,17 @@ Download the .apk and run it on your device/emulator. Otherwise clone and compil
 
 ### Screenshots
 
-* Sign in ![image](screenshots/Main.png)
+*  ![Sign in](screenshots/Main.png)
 
-* Sign up ![image](screenshots/signup.png)
+*  ![Sign up](screenshots/signup.png)
 
-* Journals ![image](screenshots/journals.png)
+*  ![Journals](screenshots/journals.png)
 
-* Menu ![image](screenshots/menu.png)
+*  ![Menu](screenshots/menu.png)
 
-* View journal ![image](screenshots/view.png)
+*  ![View journal](screenshots/view.png)
 
-* Update ![image](screenshots/update.png)
+*  ![Update](screenshots/update.png)
 
 
 
