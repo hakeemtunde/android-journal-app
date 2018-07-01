@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.util.ValidateUtil;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -177,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void launchJournalActivity() {
         Intent intent = new Intent(this, JournalActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private void signInUserWithEmailAndPassword() {
@@ -187,13 +187,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String email = mEmailEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
 
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(email) ||
+                !ValidateUtil.isValidEmail(email)) {
             mEmailEditText.setError("Invalid email");
+            mProgressBar.setVisibility(View.GONE);
             return;
         }
 
         if (TextUtils.isEmpty(password) || password.length() < 6) {
             mPasswordEditText.setError("invalid password");
+            mProgressBar.setVisibility(View.GONE);
             return;
         }
 

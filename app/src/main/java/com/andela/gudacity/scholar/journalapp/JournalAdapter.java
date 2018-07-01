@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.model.Journal;
+import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.util.DateUtil;
 
 import java.util.List;
 
@@ -86,7 +87,8 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.ViewHold
         void bind(Journal journal) {
             mTextViewTag.setText(journal.getTag());
             mTextViewShortNote.setText(journal.getNote());
-            mTextViewTimestamp.setText(journal.getDate().toString());
+            mTextViewTimestamp.setText(DateUtil
+                    .getDateFormat(journal.getDate()));
         }
 
         @Override

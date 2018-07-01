@@ -2,6 +2,7 @@ package com.andela.gudacity.scholar.journalapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,6 +90,9 @@ public class JournalAddActivity extends AppCompatActivity
     }
 
     private void saveToSQLight() {
+
+        if (!isInputvalid()) return;
+
         String note = mNoteEditText.getText().toString();
         String tag = mTagEditText.getText().toString();
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -113,6 +117,8 @@ public class JournalAddActivity extends AppCompatActivity
 
     private void saveToFirebase() {
 
+        if (!isInputvalid()) return;
+
         String note = mNoteEditText.getText().toString();
         String tag = mTagEditText.getText().toString();
 
@@ -134,5 +140,22 @@ public class JournalAddActivity extends AppCompatActivity
         Toast.makeText(this, "Journal saved to firebase. Look at the log!", Toast.LENGTH_LONG)
                 .show();
     }
+
+    private boolean isInputvalid() {
+        boolean status = true;
+        String note = mNoteEditText.getText().toString();
+        String tag = mTagEditText.getText().toString();
+
+        if (TextUtils.isEmpty(note) || TextUtils.isEmpty(tag)) {
+            status = false;
+
+            Toast.makeText(this, "note/tag cannot be empty!", Toast.LENGTH_LONG)
+                    .show();
+        }
+
+        return status;
+
+    }
+
 
 }
