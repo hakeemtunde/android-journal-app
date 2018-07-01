@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public class DateUtil {
 
-    private static final String DATE_FORMAT = "dd/MM/yyy";
+    private static final String DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss aaa";
 
     private static SimpleDateFormat dateFormat =
             new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());

@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mProgressBar.setVisibility(View.VISIBLE);
                 signIn();
             }
         });
@@ -103,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        mProgressBar.setVisibility(View.VISIBLE);
-
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -119,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override

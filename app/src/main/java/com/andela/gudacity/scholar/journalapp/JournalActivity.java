@@ -1,16 +1,14 @@
 package com.andela.gudacity.scholar.journalapp;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+
 
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.model.Journal;
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.repository.FirebaseRepo;
@@ -18,14 +16,9 @@ import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.reposi
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.util.AppExecutors;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class JournalActivity extends AppCompatActivity
@@ -63,25 +56,32 @@ public class JournalActivity extends AppCompatActivity
         mJournalRepo = new JournalRepo(getApplicationContext());
 
         //firebase
+        //check log to view output on permission
         mFirebaseRepo = new FirebaseRepo(mUser);
         mFirebaseRepo.retrieveJournalFromFirebase();
+
+        DividerItemDecoration decoration =
+                new DividerItemDecoration(getApplicationContext(),
+                        DividerItemDecoration.VERTICAL);
 
         mJournalAdapter = new JournalAdapter(mJournalList, this);
         mJournalRecycleView.setAdapter(mJournalAdapter);
 
+        mJournalRecycleView.addItemDecoration(decoration);
 
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_journal, menu);
-        return true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         loadData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_journal, menu);
+        return true;
     }
 
     @Override

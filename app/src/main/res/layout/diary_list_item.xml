@@ -3,9 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:layout_marginTop="5dp"
-    android:background="@color/material50Green"
+    android:padding="10dp"
+    android:background="@color/colorWhite"
     android:foreground="?attr/selectableItemBackground">
 
 
@@ -14,11 +13,11 @@
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:fontFamily="monospace"
+            android:textSize="20sp"
+            android:textAllCaps="true"
+            android:fontFamily="sans-serif"
             android:text="Tage"
             android:textColor="@color/material900Green"
-            android:gravity="center_horizontal"
             />
 
         <TextView
@@ -26,11 +25,11 @@
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:fontFamily="monospace"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
             android:padding="5dp"
             android:text="my brief note..."
-            android:textColor="@color/material900Green"
+
             />
 
         <TextView
@@ -39,8 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="12-12-2018"
             android:textSize="10sp"
+            android:fontFamily="serif"
+            android:textColor="@color/material900Green"
             />
 
 </LinearLayout>
