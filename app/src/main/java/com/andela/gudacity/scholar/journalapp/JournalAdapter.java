@@ -1,6 +1,7 @@
 package com.andela.gudacity.scholar.journalapp;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,27 +11,43 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.model.Journal;
+import com.andela.gudacity.scholar.journalapp.com.andela.gudacity.scholar.util.DateUtil;
 
 import java.util.List;
 
 public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.ViewHolder> {
 
+    private static final String TAG = JournalAdapter.class.getSimpleName();
+
     final private ListItemClickListener mOnClickItemListener;
 
     private List<Journal> mJournalList;
+
+
+    public interface ListItemClickListener {
+        void onListItemClick(int itemPosition);
+    }
 
     public JournalAdapter(List<Journal> journals, ListItemClickListener listener) {
         mJournalList = journals;
         mOnClickItemListener = listener;
     }
 
+    public void setJournalList(List<Journal> journals) {
+        mJournalList.clear();
+        mJournalList.addAll(journals);
+        notifyDataSetChanged();
+
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemview = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.diary_list_item, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
 
-        return new ViewHolder(itemview);
+        return viewHolder;
     }
 
     @Override
@@ -38,16 +55,16 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.ViewHold
 
         Journal journal = mJournalList.get(position);
         holder.bind(journal);
+
     }
 
     @Override
     public int getItemCount() {
+        if (mJournalList.size() == 0 ) return 0;
         return mJournalList.size();
     }
 
-    public interface ListItemClickListener {
-        void onListItemClick(int itemPosition);
-    }
+
 
     class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
@@ -64,19 +81,23 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.ViewHold
             mTextViewTimestamp = (TextView) itemView.findViewById(R.id.tv_timestamp);
 
             itemView.setOnClickListener(this);
+
         }
 
         void bind(Journal journal) {
-            mTextViewTag.setText(journal.tag);
-            mTextViewShortNote.setText(journal.note);
-            mTextViewTimestamp.setText(journal.timestamp);
+            mTextViewTag.setText(journal.getTag());
+            mTextViewShortNote.setText(journal.getNote());
+            mTextViewTimestamp.setText(DateUtil
+                    .getDateFormat(journal.getDate()));
         }
 
         @Override
         public void onClick(View view) {
-
+            Log.d(TAG, "Item Clicked!!");
             int clickedJournalPosition = getAdapterPosition();
             mOnClickItemListener.onListItemClick(clickedJournalPosition);
         }
+
+
     }
 }

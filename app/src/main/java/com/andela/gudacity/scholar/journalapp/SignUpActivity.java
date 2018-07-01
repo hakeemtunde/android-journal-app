@@ -86,10 +86,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         if (!ValidateUtil.isValidEmail(email)) {
             mEmailEditText.setError("Invalid email");
+            mProgressBar.setVisibility(View.GONE);
             return;
         }
 
         if (TextUtils.isEmpty(password) || password.length() < 6) {
+            mProgressBar.setVisibility(View.GONE);
             mPasswordEditText.setError("invalid password");
             return;
         }
@@ -114,7 +116,6 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.makeText(SignUpActivity.this,
                                     "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            mProgressBar.setVisibility(View.GONE);
 
                         }
 

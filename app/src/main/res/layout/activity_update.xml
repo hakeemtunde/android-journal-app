@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".JournalAddActivity"
-    >
-
+    tools:context=".UpdateActivity">
 
     <TextView
-        android:id="@+id/tv_note_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Note" />
@@ -18,13 +16,13 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <EditText
-        android:id="@+id/et_note"
-        android:layout_width="match_parent"
-        android:layout_height="268dp"
-        android:inputType="textMultiLine"
-        android:gravity="top"
-        />
+        <EditText
+            android:id="@+id/et_update_note"
+            android:layout_width="match_parent"
+            android:layout_height="268dp"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <RelativeLayout
@@ -32,7 +30,7 @@
         android:layout_height="50dp">
 
         <TextView
-            android:id="@+id/tv_tag_label"
+            android:id="@+id/tv_update_tag_label"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -43,35 +41,24 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/et_tag"
+                android:id="@+id/et_update_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/tv_tag_label"
-                android:layout_toRightOf="@+id/tv_tag_label"
+                android:layout_toEndOf="@+id/tv_update_tag_label"
+                android:layout_toRightOf="@+id/tv_update_tag_label"
                 android:singleLine="true"
-                 />
+                />
         </android.support.design.widget.TextInputLayout>
 
     </RelativeLayout>
 
     <Button
-        android:id="@+id/btn_offline_save"
-        android:text="Save To Phone (Offline)"
+        android:id="@+id/btn_offline_update"
+        android:text="Update To Phone (Offline)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        android:textColor="@color/colorWhite"
-        android:layout_marginBottom="5dp"
-        />
-
-    <Button
-        android:id="@+id/btn_online_firebase"
-        android:text="Save To Firebase (Online)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:textColor="@color/colorWhite"
-        />
+        android:textColor="@color/colorWhite"/>
 
 </LinearLayout>
