@@ -26,7 +26,7 @@ Download the .apk and run it on your device/emulator. Otherwise clone and compil
 
 ### Screenshots
 
-* Sign in ![image](screenshot/Main.png)
+* Sign in ![image](screenshots/Main.png)
 
 
 
