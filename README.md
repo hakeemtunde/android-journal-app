@@ -10,6 +10,26 @@ Download the .apk and run it on your device/emulator. Otherwise clone and compil
 
 * A compatible Android device that runs Android 4.0 or newer and includes the Google Play Store or an emulator with an AVD that runs the Google APIs platform based on Android 4.2.2 or newer and has Google Play services version 15.0.0 or newer.
 
+### Functions
+
+* Register and Login using google authentication
+
+* View all entries to their diary
+
+* View the contents of a diary entry
+
+* Add and modify an entry
+
+### Extra Credits
+
+* The can persist your data to Firebase, but cannot fetch due to permission denial error (view logcat)
+
+### Screenshots
+
+* Sign in ![image](screenshot/Main.png)
+
+
+
 ## Authors
 
 * **AbdulHakeem AbdulAleem** 
